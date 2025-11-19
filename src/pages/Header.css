@@ -1,0 +1,27 @@
+.header {
+  display: flex;
+  justify-content: space-between; /* Title left, nav right */
+  align-items: center;
+  background-color: #198ca8;
+  color: white;
+  padding: 10px 20px;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 24px;
+}
+
+.header-right nav {
+  display: flex;
+  gap: 15px; /* space between links */
+}
+
+.header-right nav a {
+  color: white;
+  text-decoration: none;
+}
+
+.header-right nav a:hover {
+  text-decoration: underline;
+}
