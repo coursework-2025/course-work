@@ -1,0 +1,68 @@
+/* ------- FULL SCREEN HOME PAGE WITH BACKGROUND IMAGE ------- */
+.home-container.image-bg {
+  height: 100vh;
+  width: 100vw;
+  background-image: url("/image/level.avif"); /* Path to your image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ------- OVERLAY CONTENT ------- */
+.overlay {
+  text-align: center;
+  background: rgba(0, 0, 0, 0.45);   /* Dark transparent overlay */
+  padding: 40px 60px;
+  border-radius: 12px;
+  color: white;
+}
+
+.overlay h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.overlay p {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+}
+
+/* ------- CALL TO ACTION BUTTON ------- */
+.btn {
+  background: #cbce19;
+  border: none;
+  padding: 14px 35px;
+  border-radius: 30px;
+  font-size: 1.2rem;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn:hover {
+  background: #008bcc;
+  transform: scale(1.05);
+}
+.extra-image {
+  margin-top: 25px;
+  width: 300px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+/* Bottom-right corner image */
+.corner-image {
+  position: absolute;
+  bottom: -50px;
+  right: 5px;
+  width: 200px;
+  border-radius: 1px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.gold-text {
+  color: gold;
+  font-weight: bold;
+}
