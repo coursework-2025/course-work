@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/main.css";
+import "../main.css";
 
 export default function DoctorDashboard() {
   return (

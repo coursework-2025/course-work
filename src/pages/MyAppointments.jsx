@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "../styles/main.css";
+import "../main.css";
 import axios from "axios";
 export default function MyAppointments({ patientId }) {
   const [appointments, setAppointments] = useState([]);

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import "../styles/main.css";
+import "../main.css";
 
 export default function Doctors() {
   const [doctors, setDoctors] = useState([]);
