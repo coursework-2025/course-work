@@ -2,6 +2,7 @@ const cors=require('cors')
 const express=require('express')
 const dotenv =require('dotenv');
 const connectDB=require('./src/database/database.js')
+const patientAuth=require('./src/route/patientRoute.js')
 dotenv.config()
 
 const PORT=process.env.PORT
