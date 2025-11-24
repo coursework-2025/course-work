@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Layout from "./components/Layout.jsx";
+import Layout from "./pages/Layout.jsx";
 // App.jsx or main entry point
-import "./styles/main.css";
+// import "./styles/main.css";
 
 // Pages
 import Home from "./pages/Home.jsx";

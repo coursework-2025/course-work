@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../styles/main.css";
+import "../main.css";
 
 export default function PatientProfile() {
   const [profile, setProfile] = useState({ name: "John Doe", email: "john@gmail.com", contact: "12345678" });
