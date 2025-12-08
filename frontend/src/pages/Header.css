@@ -1,8 +1,13 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .header {
   display: flex;
   justify-content: space-between; /* Title left, nav right */
   align-items: center;
-  background-color: #198ca8;
+  background-color: #6e91b6;
   color: white;
   padding: 10px 20px;
 }
