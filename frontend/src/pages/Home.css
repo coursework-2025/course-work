@@ -1,7 +1,10 @@
+.home-container{
+  background-color: #EEEEEE;
+}
 /* ------- FULL SCREEN HOME PAGE WITH BACKGROUND IMAGE ------- */
 .home-container.image-bg {
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   background-image: url("/image/level.avif"); /* Path to your image */
   background-size: cover;
   background-position: center;
