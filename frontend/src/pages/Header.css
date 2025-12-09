@@ -11,7 +11,11 @@
   color: white;
   padding: 10px 20px;
 }
-
+.auth{
+  display: flex;
+  gap: 10px;
+  color: red;
+}
 .header-title {
   margin: 0;
   font-size: 24px;

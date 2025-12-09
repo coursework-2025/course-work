@@ -1,38 +1,88 @@
-// Login.jsx
 import React, { useState } from 'react';
+import axios from 'axios';
 import styles from './Login.module.css';
 
-export default function Login({ onSwitchToSignUp }) {
+export default function Login({ onSwitchToSignUp, onLoginSuccess }) {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+    setError(''); // Clear error when user types
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login submitted:', formData);
-    // Add your login logic here
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
+      
+      // Save token to localStorage
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+      
+      console.log('Login successful:', response.data);
+      
+      // Call onLoginSuccess callback if provided
+      if (onLoginSuccess) {
+        onLoginSuccess(response.data.user);
+      }
+      
+      // Redirect to home or dashboard
+      window.location.href = '/dashboard';
+      
+    } catch (err) {
+      console.error('Login error:', err.response?.data || err.message);
+      setError(err.response?.data?.message || 'Login failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleLogin = () => {
     console.log('Google login clicked');
-    // Add Google OAuth logic here
+    // Implement Google OAuth
   };
 
   const handleFacebookLogin = () => {
     console.log('Facebook login clicked');
-    // Add Facebook OAuth logic here
+    // Implement Facebook OAuth
+  };
+
+  const handleForgotPassword = async () => {
+    if (!formData.email) {
+      setError('Please enter your email address');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/forgot-password', {
+        email: formData.email
+      });
+      
+      alert('Password reset instructions sent to your email');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Error sending reset email');
+    }
   };
 
   return (
     <div className={styles.loginPage}>
+      <button className={styles.backBtn} onClick={() => window.history.back()}>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        Back
+      </button>
       <div className={styles.logo}>D. Murphy</div>
       
       <div className={styles.container}>
@@ -42,35 +92,52 @@ export default function Login({ onSwitchToSignUp }) {
             New patient? <button onClick={onSwitchToSignUp} className={styles.link}>Sign Up</button>
           </p>
 
-          <div className={styles.inputGroup}>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              className={styles.input}
-            />
-          </div>
+          {error && <div className={styles.errorMessage}>{error}</div>}
 
-          <div className={styles.inputGroup}>
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              className={styles.input}
-            />
-          </div>
+          <form onSubmit={handleSubmit}>
+            <div className={styles.inputGroup}>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                className={styles.input}
+                required
+                disabled={loading}
+              />
+            </div>
 
-          <a href="/forgot-password" className={styles.forgotLink}>
-            Forgot your password?
-          </a>
+            <div className={styles.inputGroup}>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                className={styles.input}
+                required
+                disabled={loading}
+              />
+            </div>
 
-          <button onClick={handleSubmit} className={styles.loginBtn}>
-            Log In
-          </button>
+            <button 
+              type="button" 
+              onClick={handleForgotPassword} 
+              className={styles.forgotLink}
+              disabled={loading}
+            >
+              Forgot your password?
+            </button>
+
+            <button 
+              type="submit" 
+              className={styles.loginBtn}
+              disabled={loading}
+            >
+              {loading ? 'Logging in...' : 'Log In'}
+            </button>
+          </form>
         </div>
 
         <div className={styles.divider}>
@@ -78,7 +145,11 @@ export default function Login({ onSwitchToSignUp }) {
         </div>
 
         <div className={styles.rightSection}>
-          <button onClick={handleGoogleLogin} className={styles.socialBtn}>
+          <button 
+            onClick={handleGoogleLogin} 
+            className={styles.socialBtn}
+            disabled={loading}
+          >
             <svg className={styles.googleIcon} viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -88,7 +159,11 @@ export default function Login({ onSwitchToSignUp }) {
             Continue with Google
           </button>
 
-          <button onClick={handleFacebookLogin} className={styles.facebookBtn}>
+          <button 
+            onClick={handleFacebookLogin} 
+            className={styles.facebookBtn}
+            disabled={loading}
+          >
             <svg className={styles.facebookIcon} viewBox="0 0 24 24" fill="#ffffff">
               <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
             </svg>
