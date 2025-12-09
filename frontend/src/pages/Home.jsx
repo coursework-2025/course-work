@@ -1,5 +1,7 @@
 import Hero from "../component/Hero";
+import AboutSection from "../component/AboutSection";
 import { useNavigate } from "react-router-dom";
+import ServicesSection from "../component/ServiceSection";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -12,6 +14,8 @@ export default function Home() {
   return (
     <div>
       <Hero onBookNow={handleBookNow} />
+      <AboutSection/>
+      <ServicesSection/>
     </div>
   );
 }

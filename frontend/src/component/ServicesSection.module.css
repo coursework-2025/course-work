@@ -1,0 +1,115 @@
+/* Services.module.css */
+
+.services {
+  background-color: #f5f5f5;
+  padding: 80px 24px;
+}
+
+.serviceTitle {
+  text-align: center;
+  font-size: 42px;
+  font-weight: 300;
+  color: #000000;
+  margin: 0 0 60px 0;
+  text-transform: capitalize;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.card {
+  background-color: #ffffff;
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.iconWrapper {
+  margin-bottom: 40px;
+}
+
+.icon {
+  width: 120px;
+  height: 120px;
+  display: block;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 400;
+  color: #000000;
+  margin: 0 0 40px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.bookBtn {
+  background-color: transparent;
+  border: 2px solid #FF8C42;
+  color: #FF8C42;
+  padding: 12px 40px;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.bookBtn:hover {
+  background-color: #FF8C42;
+  color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .services {
+    padding: 60px 20px;
+  }
+
+  .sectionTitle {
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .card {
+    padding: 40px 30px;
+  }
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+
+  .icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .bookBtn {
+    padding: 10px 30px;
+    font-size: 16px;
+  }
+}
