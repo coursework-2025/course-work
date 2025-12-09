@@ -17,13 +17,11 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Email is required'],
     unique: true,
     lowercase: true,
-    trim: true,
-    match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please provide a valid email']
+    trim: true
   },
   phone: {
     type: String,
-    required: [true, 'Phone number is required'],
-    match: [/^\d{10,15}$/, 'Please provide a valid phone number']
+    required: [true, 'Phone number is required']
   },
   dateOfBirth: {
     type: Date,
@@ -32,8 +30,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Password is required'],
-    minlength: [6, 'Password must be at least 6 characters'],
-    select: false
+    minlength: 6
   },
   gender: {
     type: String,
@@ -45,43 +42,17 @@ const userSchema = new mongoose.Schema({
     enum: ['patient', 'admin', 'receptionist', 'doctor'],
     default: 'patient'
   },
-  medicalHistory: {
-    type: String,
-    default: ''
-  },
-  isVerified: {
-    type: Boolean,
-    default: false
-  },
   createdAt: {
     type: Date,
     default: Date.now
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
   }
 });
 
-// Hash password before saving - FIXED VERSION
-userSchema.pre('save', async function(next) {
-  // Only hash if password is modified
-  if (!this.isModified('password')) {
-    return next();
-  }
-  
-  try {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (error) {
-    next(error);
-  }
-});
-
-// Compare password method
+// Add comparePassword method
 userSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
