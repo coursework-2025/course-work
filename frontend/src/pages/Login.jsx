@@ -83,7 +83,7 @@ export default function Login({ onSwitchToSignUp, onLoginSuccess }) {
         </svg>
         Back
       </button>
-      <div className={styles.logo}>D. Murphy</div>
+      <div className={styles.logo}>Ma mental</div>
       
       <div className={styles.container}>
         <div className={styles.leftSection}>
