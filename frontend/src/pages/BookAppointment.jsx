@@ -1,61 +1,130 @@
-import { useState, useEffect } from "react";
-import "../styles/main.css";
-import axios from "axios";
+// BookAppointment.jsx
+import { useState } from 'react';
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, addMonths, subMonths } from 'date-fns';
+import { ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
+import styles from './BookAppointment.module.css';
 
-export default function BookAppointment({ patientId }) {
-  const [doctors, setDoctors] = useState([]);
-  const [selectedDoctor, setSelectedDoctor] = useState("");
-  const [date, setDate] = useState("");
-  const [slots, setSlots] = useState([]);
-  const [selectedSlot, setSelectedSlot] = useState("");
+export default function BookAppointment() {
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date(2025, 11, 9)); // Dec 9
+  const [selectedTime, setSelectedTime] = useState(null);
 
-  useEffect(() => {
-    axios.get("http://localhost:5000/doctors").then(res => setDoctors(res.data));
-  }, []);
+  const monthStart = startOfMonth(currentMonth);
+  const monthEnd = endOfMonth(currentMonth);
+  const monthDays = eachDayOfInterval({ start: monthStart, end: monthEnd });
+  const firstDayOfWeek = monthStart.getDay();
+  const blanks = Array(firstDayOfWeek).fill(null);
 
-  useEffect(() => {
-    if (selectedDoctor && date) {
-      axios
-        .get(`http://localhost:5000/doctors/${selectedDoctor}/availability?date=${date}`)
-        .then(res => setSlots(res.data));
-    }
-  }, [selectedDoctor, date]);
+  const timeSlots = ['9:00 pm', '9:30 pm', '10:00 pm', '10:30 pm', '11:00 pm', '11:30 pm'];
 
-  const handleBooking = e => {
-    e.preventDefault();
-    axios
-      .post("http://localhost:5000/appointments", {
-        patient_id: patientId,
-        doctor_id: selectedDoctor,
-        date,
-        time_slot: selectedSlot
-      })
-      .then(res => alert(res.data.message))
-      .catch(err => alert(err.response.data.message));
+  const handleBack = () => {
+    window.history.back(); // or use your router: navigate(-1)
   };
 
   return (
-    <div className="appointment-page">
-      <div className="appointment-container">
-        <h2>Book Appointment</h2>
-        <form onSubmit={handleBooking}>
-          <label>Doctor</label>
-          <select onChange={e => setSelectedDoctor(e.target.value)} required>
-            <option value="">Select Doctor</option>
-            {doctors.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
-          </select>
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
+        {/* Back Button + Header */}
+        <button onClick={handleBack} className={styles.backButton}>
+          <ArrowLeft size={20} />
+          Back
+        </button>
 
-          <label>Date</label>
-          <input type="date" value={date} onChange={e => setDate(e.target.value)} required />
+        <h1 className={styles.header}>Schedule your service</h1>
+        <p className={styles.subheader}>
+          Check out our availability and book the date and time that works for you
+        </p>
 
-          <label>Time Slot</label>
-          <select onChange={e => setSelectedSlot(e.target.value)} required>
-            <option value="">Select Slot</option>
-            {slots.map(s => <option key={s} value={s}>{s}</option>)}
-          </select>
+        <div className={styles.grid}>
+          {/* Left: Calendar + Time */}
+          <div>
+            <div className={styles.card}>
+              <div className={styles.titleRow}>
+                <h2 className={styles.title}>Select a Date and Time</h2>
+                <span className={styles.timezone}>East Africa Time (GMT+3)</span>
+              </div>
+              <hr className={styles.hr} />
 
-          <button type="submit" className="appointment-btn">Book Appointment</button>
-        </form>
+              {/* Calendar */}
+              <div className={styles.calendarHeader}>
+                <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className={styles.navBtn}>
+                  <ChevronLeft size={24} />
+                </button>
+                <h3 className={styles.monthTitle}>{format(currentMonth, 'MMMM yyyy')}</h3>
+                <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))} className={styles.navBtn}>
+                  <ChevronRight size={24} />
+                </button>
+              </div>
+
+              <div className={styles.weekdays}>
+                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                  <div key={day}>{day}</div>
+                ))}
+              </div>
+
+              <div className={styles.calendarGrid}>
+                {blanks.map((_, i) => <div key={`blank-${i}`} />)}
+                {monthDays.map(day => {
+                  const isSelected = isSameDay(day, selectedDate);
+                  const isToday = isSameDay(day, new Date());
+
+                  return (
+                    <button
+                      key={day.toString()}
+                      onClick={() => setSelectedDate(day)}
+                      className={`${styles.dayBtn} ${isSelected ? styles.selected : ''} ${isToday && !isSelected ? styles.today : ''}`}
+                    >
+                      {format(day, 'd')}
+                      {isToday && !isSelected && <span className={styles.todayDot} />}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Time Slots */}
+              <div className={styles.timeSection}>
+                <p className={styles.timeHeader}>
+                  Availability for {format(selectedDate, 'EEEE, MMMM d')}
+                </p>
+                <div className={styles.timeGrid}>
+                  {timeSlots.map(time => (
+                    <button
+                      key={time}
+                      onClick={() => setSelectedTime(time)}
+                      className={`${styles.timeBtn} ${selectedTime === time ? styles.selected : styles.available}`}
+                    >
+                      {time}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Service Details */}
+          <div className={styles.sidebar}>
+            <div className={styles.card}>
+              <h2 className={styles.serviceTitle}>Service Details</h2>
+              <hr className={styles.hr} />
+
+              <h3 className={styles.serviceName}>Physical Exams</h3>
+
+              <div className={styles.selectWrapper}>
+                <label className={styles.selectLabel}>More details</label>
+                <select className={styles.select}>
+                  <option>General Physical Exam</option>
+                  <option>Pre-employment Medical</option>
+                  <option>Annual Health Check</option>
+                  <option>Visa Medical Exam</option>
+                </select>
+              </div>
+
+              <button disabled={!selectedTime} className={styles.nextBtn}>
+                Next
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
