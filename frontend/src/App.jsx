@@ -16,18 +16,19 @@ import DailySummary from "./pages/DailySummary.jsx";
 import Reports from "./pages/Reports.jsx";
 import Doctors from "./pages/Doctors.jsx";
 import MyAppointments from "./pages/MyAppointments.jsx";
+import AuthContainer from "./pages/AuthContainer.jsx";
 
 function App() {
   return (
     <Router>
       <Routes>
         {/* Public pages without header/footer */}
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<AuthContainer />} />
         <Route path="/register" element={<RegisterPatient />} />
         <Route path="/register-staff" element={<RegisterStaff />} />
 
         {/* Pages with header/footer */}
-        <Route path="/" element={<Layout><Home /></Layout>} />
+        {/* <Route path="/" element={<Layout><Home /></Layout>} /> */}
         <Route path="/dashboard" element={<Layout><PatientDashboard /></Layout>} />
         <Route path="/profile" element={<Layout><PatientProfile /></Layout>} />
         <Route path="/my-appointments" element={<Layout><MyAppointments /></Layout>} />
