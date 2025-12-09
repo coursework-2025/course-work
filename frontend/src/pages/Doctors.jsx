@@ -3,8 +3,11 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import DoctorModal from './DoctorsModal';
 import styles from './DoctorList.module.css';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function DoctorList() {
+   const navigate = useNavigate();
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
