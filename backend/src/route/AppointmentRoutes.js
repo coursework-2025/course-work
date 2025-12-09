@@ -12,4 +12,7 @@ router.post('/', appointmentController.bookAppointment);
 // GET /api/appointments?patientEmail=xxx - Get user's appointments
 router.get('/', appointmentController.getMyAppointments);
 
+// PUT /api/appointments/:id/cancel - Cancel appointment
+router.put('/:id/cancel', appointmentController.cancelAppointment);
+
 module.exports = router;

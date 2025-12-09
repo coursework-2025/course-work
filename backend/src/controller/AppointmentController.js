@@ -192,3 +192,82 @@ exports.getMyAppointments = async (req, res) => {
     });
   }
 };
+// Get user's appointments
+exports.getMyAppointments = async (req, res) => {
+  try {
+    const { patientEmail } = req.query;
+    
+    if (!patientEmail) {
+      return res.status(400).json({
+        success: false,
+        message: 'Patient email is required'
+      });
+    }
+
+    const appointments = await Appointment.find({ patientEmail })
+      .sort({ date: -1, time: -1 });
+
+    // Format appointments for frontend
+    const formattedAppointments = appointments.map(app => ({
+      id: app._id,
+      _id: app._id,
+      bookingId: app.bookingId,
+      doctor_name: app.doctorName,
+      specialization: app.doctorSpecialty,
+      hospital: app.doctorHospital,
+      date: app.date ? app.date.toISOString().split('T')[0] : '',
+      time_slot: app.time,
+      status: app.status,
+      serviceType: app.serviceType,
+      consultationFee: app.consultationFee,
+      patientName: app.patientName,
+      patientEmail: app.patientEmail,
+      createdAt: app.createdAt
+    }));
+
+    res.json({
+      success: true,
+      count: appointments.length,
+      appointments: formattedAppointments
+    });
+
+  } catch (error) {
+    console.error('Get appointments error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+};
+
+// Cancel appointment
+exports.cancelAppointment = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const appointment = await Appointment.findByIdAndUpdate(
+      id,
+      { status: 'cancelled' },
+      { new: true }
+    );
+
+    if (!appointment) {
+      return res.status(404).json({
+        success: false,
+        message: 'Appointment not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Appointment cancelled successfully'
+    });
+
+  } catch (error) {
+    console.error('Cancel error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+};
