@@ -88,7 +88,7 @@ export default function SignUp({ onSwitchToLogin }) {
 
       // Redirect after successful registration
       setTimeout(() => {
-        window.location.href = '/dashboard';
+        window.location.href = '/Auth';
       }, 2000);
 
     } catch (err) {

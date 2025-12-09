@@ -1,26 +1,36 @@
-// AuthContainer.jsx
-// This component manages switching between Login and SignUp
-import React, { useState } from 'react';
-import Login from './Login';
-import SignUp from './signup';
+// src/pages/AuthPage.jsx
+import { useState } from "react";
+import Login from "./Login";
+import SignUp from "./signup";
 
-export default function AuthContainer() {
-  const [showLogin, setShowLogin] = useState(true);
+export default function AuthPage() {
+  const [isLogin, setIsLogin] = useState(true);
+  const [prefilledData, setPrefilledData] = useState(null); // For auto-fill after signup
 
-  const switchToSignUp = () => {
-    setShowLogin(false);
-  };
+  const handleSwitchToSignUp = () => setIsLogin(false);
+  const handleSwitchToLogin = () => setIsLogin(true);
 
-  const switchToLogin = () => {
-    setShowLogin(true);
+  const handleSignupSuccess = (userData) => {
+    // After successful signup, switch to login and prefill
+    setPrefilledData({
+      email: userData.email,
+      password: "" // Never pre-fill password for security
+    });
+    setIsLogin(true);
   };
 
   return (
     <>
-      {showLogin ? (
-        <Login onSwitchToSignUp={switchToSignUp} />
+      {isLogin ? (
+        <Login
+          onSwitchToSignUp={handleSwitchToSignUp}
+          prefilledEmail={prefilledData?.email}
+        />
       ) : (
-        <SignUp onSwitchToLogin={switchToLogin} />
+        <SignUp
+          onSwitchToLogin={handleSwitchToLogin}
+          onSignupSuccess={handleSignupSuccess}
+        />
       )}
     </>
   );

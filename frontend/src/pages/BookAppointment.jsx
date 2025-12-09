@@ -1,13 +1,31 @@
 // BookAppointment.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, addMonths, subMonths } from 'date-fns';
 import { ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react';
 import styles from './BookAppointment.module.css';
 
 export default function BookAppointment() {
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date(2025, 11, 9)); // Dec 9
+  const [selectedDate, setSelectedDate] = useState(new Date(2025, 11, 9));
   const [selectedTime, setSelectedTime] = useState(null);
+  const [selectedService, setSelectedService] = useState('General Physical Exam');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+
+  // Check login on mount
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    if (token && user) {
+      setIsLoggedIn(true);
+      setUserId(JSON.parse(user)._id); // Assume user has _id from backend
+    }
+  }, []);
 
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(currentMonth);
@@ -18,13 +36,55 @@ export default function BookAppointment() {
   const timeSlots = ['9:00 pm', '9:30 pm', '10:00 pm', '10:30 pm', '11:00 pm', '11:30 pm'];
 
   const handleBack = () => {
-    window.history.back(); // or use your router: navigate(-1)
+    window.history.back();
   };
+
+  const handleBook = async () => {
+    if (!selectedTime) return;
+    setLoading(true);
+    setMessage('');
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        'http://localhost:5000/api/appointments',
+        {
+          userId,
+          date: format(selectedDate, 'yyyy-MM-dd'),
+          time: selectedTime,
+          serviceType: selectedService
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setMessage('Appointment booked successfully!');
+      // Reset selections
+      setSelectedTime(null);
+      setSelectedService('General Physical Exam');
+    } catch (err) {
+      setMessage(err.response?.data?.message || 'Failed to book appointment. Slot may be taken.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isLoggedIn) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.wrapper}>
+          <h1 className={styles.header}>Please Log In</h1>
+          <p className={styles.subheader}>You must be logged in to schedule an appointment.</p>
+          <button onClick={() => navigate('/auth')} className={styles.nextBtn}>
+            Go to Login
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        {/* Back Button + Header */}
         <button onClick={handleBack} className={styles.backButton}>
           <ArrowLeft size={20} />
           Back
@@ -35,8 +95,9 @@ export default function BookAppointment() {
           Check out our availability and book the date and time that works for you
         </p>
 
+        {message && <p className={message.includes('success') ? styles.success : styles.error}>{message}</p>}
+
         <div className={styles.grid}>
-          {/* Left: Calendar + Time */}
           <div>
             <div className={styles.card}>
               <div className={styles.titleRow}>
@@ -45,7 +106,6 @@ export default function BookAppointment() {
               </div>
               <hr className={styles.hr} />
 
-              {/* Calendar */}
               <div className={styles.calendarHeader}>
                 <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))} className={styles.navBtn}>
                   <ChevronLeft size={24} />
@@ -81,7 +141,6 @@ export default function BookAppointment() {
                 })}
               </div>
 
-              {/* Time Slots */}
               <div className={styles.timeSection}>
                 <p className={styles.timeHeader}>
                   Availability for {format(selectedDate, 'EEEE, MMMM d')}
@@ -101,7 +160,6 @@ export default function BookAppointment() {
             </div>
           </div>
 
-          {/* Right: Service Details */}
           <div className={styles.sidebar}>
             <div className={styles.card}>
               <h2 className={styles.serviceTitle}>Service Details</h2>
@@ -111,7 +169,11 @@ export default function BookAppointment() {
 
               <div className={styles.selectWrapper}>
                 <label className={styles.selectLabel}>More details</label>
-                <select className={styles.select}>
+                <select 
+                  className={styles.select} 
+                  value={selectedService}
+                  onChange={(e) => setSelectedService(e.target.value)}
+                >
                   <option>General Physical Exam</option>
                   <option>Pre-employment Medical</option>
                   <option>Annual Health Check</option>
@@ -119,8 +181,12 @@ export default function BookAppointment() {
                 </select>
               </div>
 
-              <button disabled={!selectedTime} className={styles.nextBtn}>
-                Next
+              <button 
+                onClick={handleBook} 
+                disabled={!selectedTime || loading} 
+                className={styles.nextBtn}
+              >
+                {loading ? 'Booking...' : 'Book Now'}
               </button>
             </div>
           </div>
