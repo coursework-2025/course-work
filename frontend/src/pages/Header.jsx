@@ -15,8 +15,20 @@ export default function Header() {
           <Link to="/my-appointments">My Appointments</Link>
           <Link to="/dashboard">Dashboard</Link>
           <Link to="/profile">Profile</Link>
-          <Link to="/sign">sign in / signup</Link>
-
+<Link 
+  to="/Auth" 
+  style={{ 
+    color: 'blue', 
+    textDecoration: 'none',
+    
+    
+    transition: 'all 0.3s ease'
+  }}
+  onMouseEnter={(e) => e.target.style.color = 'darkred'}
+  onMouseLeave={(e) => e.target.style.color = 'blue'}
+>
+  sign in / signup
+</Link>
         </nav>
       </div>
     </header>
