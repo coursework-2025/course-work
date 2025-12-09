@@ -38,7 +38,7 @@ export default function Login({ onSwitchToSignUp, onLoginSuccess }) {
       }
       
       // Redirect to home or dashboard
-      window.location.href = '/dashboard';
+      window.location.href = '/';
       
     } catch (err) {
       console.error('Login error:', err.response?.data || err.message);
