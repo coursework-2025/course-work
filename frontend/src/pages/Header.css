@@ -1,12 +1,21 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .header {
   display: flex;
   justify-content: space-between; /* Title left, nav right */
   align-items: center;
-  background-color: #198ca8;
+  background-color: #6e91b6;
   color: white;
   padding: 10px 20px;
 }
-
+.auth{
+  display: flex;
+  gap: 10px;
+  color: red;
+}
 .header-title {
   margin: 0;
   font-size: 24px;
@@ -25,3 +34,13 @@
 .header-right nav a:hover {
   text-decoration: underline;
 }
+/* Header.css - add these if you don't want inline <style> */
+.user-dropdown { position: relative; display: inline-block; }
+.user-btn { background: none; border: none; font-size: 1rem; cursor: pointer; }
+.dropdown-menu {
+  position: absolute; right: 0; top: 100%; background: white; min-width: 200px;
+  border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); margin-top: 8px; z-index: 1000;
+}
+.dropdown-item { padding: 10px 16px; text-align: left; width: 100%; border: none; background: none; }
+.logout-btn { color: #dc2626; font-weight: 600; }
+.logout-btn:hover { background: #fee2e2; }
