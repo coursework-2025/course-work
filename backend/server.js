@@ -15,6 +15,7 @@ app.use(cors());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/doctors', require('./src/route/DoctorRoute.js'));
 
 // Start server
 app.listen(PORT, async () => {
