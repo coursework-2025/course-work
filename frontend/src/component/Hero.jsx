@@ -15,7 +15,7 @@ const Hero = () => {
           poster="https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
         >
           <source
-            src="https://player.vimeo.com/progressive_redirect/playback/7350234/rendition/720p?loc=external&signature=YOUR_SIGNATURE"
+            src="https://www.pexels.com/download/video/6687849/"
             type="video/mp4"
           />
           {/* Fallback image if video doesn't load */}
