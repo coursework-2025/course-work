@@ -8,14 +8,14 @@ const Footer = () => {
         <div className={styles.footerContent}>
           {/* Contact Info Section */}
           <div className={styles.contactSection}>
-            <h2 className={styles.name}>D. Murphy</h2>
+            <h2 className={styles.name}>Ma mental</h2>
             <div className={styles.contactInfo}>
-              <p className={styles.contactItem}>123-456-7890</p>
-              <p className={styles.contactItem}>info@mysite.com</p>
+              <p className={styles.contactItem}>0756953834</p>
+              <p className={styles.contactItem}>mamental@info.com</p>
             </div>
             <div className={styles.address}>
-              <p>500 Terry Francine St.</p>
-              <p>San Francisco, CA 94158</p>
+              <p>Khan kikoni</p>
+              <p>Wandegeya, kampala Uganda</p>
             </div>
           </div>
 
@@ -61,7 +61,7 @@ const Footer = () => {
 
         {/* Copyright Section */}
         <div className={styles.copyright}>
-          <p>© 2035 by D. Murphy. Powered and secured by Wix</p>
+          <p>&copy; 2025 mamental.global</p>
         </div>
       </div>
     </footer>

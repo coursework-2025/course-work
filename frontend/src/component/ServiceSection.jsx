@@ -6,7 +6,7 @@ export default function Services() {
   const services = [
     {
       id: 1,
-      title: 'Blood Work',
+      title: 'One-on-one therapy sessions',
       icon: (
         <svg className={styles.icon} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="20" y="65" width="60" height="8" stroke="#2C5F9E" strokeWidth="4" fill="none"/>
@@ -23,7 +23,7 @@ export default function Services() {
     },
     {
       id: 2,
-      title: 'Physical Exams',
+      title: 'Visit a mental health clinic',
       icon: (
         <svg className={styles.icon} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="25" y="20" width="50" height="65" rx="3" stroke="#2C5F9E" strokeWidth="4" fill="none"/>
@@ -39,7 +39,7 @@ export default function Services() {
     },
     {
       id: 3,
-      title: 'Mental Health',
+      title: 'Mental checkup',
       icon: (
         <svg className={styles.icon} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <ellipse cx="50" cy="50" rx="25" ry="35" stroke="#2C5F9E" strokeWidth="4" fill="none" transform="rotate(30 50 50)"/>
@@ -52,7 +52,7 @@ export default function Services() {
 
   return (
     <section className={styles.services}>
-         <h2 className={styles.serviceTitle}>how can we help you</h2>
+         <h2 className={styles.serviceTitle}>how we can help you</h2>
       <div className={styles.container}>
         {services.map((service) => (
           <div key={service.id} className={styles.card}>
@@ -60,7 +60,7 @@ export default function Services() {
               {service.icon}
             </div>
             <h3 className={styles.title}>{service.title}</h3>
-            <button className={styles.bookBtn}>Book Now</button>
+            <button className={styles.bookBtn}>Schedule Appointment</button>
           </div>
         ))}
       </div>
