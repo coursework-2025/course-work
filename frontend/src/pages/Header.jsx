@@ -46,7 +46,7 @@ export default function Header() {
   return (
     <header className="header">
       <div className="header-left">
-        <h2 className="header-title">Clinic Appointment System</h2>
+        <h2 className="header-title">Ma mental</h2>
       </div>
 
       <div className="header-right">
