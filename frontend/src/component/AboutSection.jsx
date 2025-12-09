@@ -7,22 +7,19 @@ const AboutSection = () => {
       <div className={styles.container}>
         {/* Left Column - Content */}
         <div className={styles.contentColumn}>
-          <h1 className={styles.title}>About Tom Dixon MD</h1>
+          <h1 className={styles.title}>About Ma Mental</h1>
           
           <div className={styles.paragraph}>
             <p>
-              I'm a paragraph. Click here to add your own text and edit me. It's easy. 
-              Just click "Edit Text" or double click me to add your own content and make 
-              changes to the font. Feel free to drag and drop me anywhere you like on 
-              your page. I'm a great place for you to tell a story and let your users 
-              know a little more about you.
+             Mental health is a vital aspect of our overall well-being, influencing how we think, feel, and interact. It's just as important as physical health, and seeking help is a sign of strength, not weakness.
+              At Ma mental, we're dedicated to promoting mental health awareness, providing support, and breaking the stigma surrounding mental illness. Our goal is to create a safe space for open conversations, education, and healing.
             </p>
           </div>
 
           <div className={styles.education}>
-            <h2 className={styles.subtitle}>Education</h2>
+            <h2 className={styles.subtitle}>where we are located</h2>
             <p className={styles.educationItem}>
-              Medical School - University of Dalton
+              Khan kikoni makerere road, Kampala, Uganda
             </p>
           </div>
         </div>

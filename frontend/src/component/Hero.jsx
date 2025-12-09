@@ -1,7 +1,13 @@
 import React from 'react';
 import styles from './Hero.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+    const navigate = useNavigate(); // Create navigate function
+
+  const handleBookNow = () => {
+    navigate('/book-appointment'); // Navigate to booking page
+  };
   return (
     <section className={styles.hero}>
       {/* Video Background */}
@@ -30,13 +36,13 @@ const Hero = () => {
       {/* Hero Content */}
       <div className={styles.container}>
         <div className={styles.content}>
-          <h1 className={styles.name}>D. Murphy</h1>
-          <h2 className={styles.title}>Physiotherapist</h2>
+          <h1 className={styles.name}>My mental</h1>
+          <h2 className={styles.title}>psychologists </h2>
           <p className={styles.specialization}>
-            Specialized in Sports Injuries and Chronic Pain
+            Mental health is just as important as physical health. Taking care of your mind is crucial for overall well-being. It's time to break the stigma and start talking about it.
           </p>
-          <button className={styles.bookButton}>
-            BOOK NOW
+          <button onClick={handleBookNow} className={styles.bookButton}>
+            Schedule an Appointment 
           </button>
         </div>
       </div>
