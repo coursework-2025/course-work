@@ -57,8 +57,8 @@
 
 .bookBtn {
   background-color: transparent;
-  border: 2px solid #FF8C42;
-  color: #FF8C42;
+  border: 2px solid rgb(43, 43, 235);
+  color: rgb(61, 61, 202);
   padding: 12px 40px;
   border-radius: 30px;
   font-size: 18px;
@@ -68,7 +68,7 @@
 }
 
 .bookBtn:hover {
-  background-color: #FF8C42;
+  background-color: rgb(139, 139, 244);
   color: #ffffff;
 }
 
